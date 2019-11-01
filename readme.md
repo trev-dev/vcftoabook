@@ -13,6 +13,10 @@ A python script for converting .vcf contact files into abook files to be used in
 2. Copy your vcf file into the same directory as vcftoabook.py. **Make sure to rename it as contacs.vcf**.
 3. Run `python vcftoabook.py`. If all goes well you should now have an addressbook file saved in the same directory as vcftoabook.py and your contacts.vcf
 
+## Testing
+Currently tested with:
+* Nextcloud 16.x VCF version 4
+
 ## TODO
 - [ ] Refactor into a proper command line application
 - [ ] Test with multiple vcf versions.
