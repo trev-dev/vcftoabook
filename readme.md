@@ -10,7 +10,7 @@ A python script for converting .vcf contact files into abook files to be used in
 ## Instructions
 
 1. Clone or download this repository.
-2. Copy your vcf file into the same directory as vcftoabook.py. **Make sure to rename it as contacs.vcf**.
+2. Copy your vcf file into the same directory as vcftoabook.py. **Make sure to rename it as contacts.vcf**.
 3. Run `python vcftoabook.py`. If all goes well you should now have an addressbook file saved in the same directory as vcftoabook.py and your contacts.vcf
 
 ## Testing
