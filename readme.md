@@ -14,6 +14,6 @@ A python script for converting .vcf contact files into abook files to be used in
 3. Run `python vcftoabook.py`. If all goes well you should now have an addressbook file saved in the same directory as vcftoabook.py and your contacts.vcf
 
 ## TODO
-- [ ] - Refactor into a proper command line application
-- [ ] - Test with multiple vcf versions.
-- [ ] - Build deployment packages for the AUR & Pip
+- [ ] Refactor into a proper command line application
+- [ ] Test with multiple vcf versions.
+- [ ] Build deployment packages for the AUR & Pip
