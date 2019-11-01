@@ -1,4 +1,4 @@
-# VCF to Abook
+# VCF to addressbook
 
 A python script for converting .vcf contact files into abook files to be used in the addressbook program for Mutt/Neomutt
 
