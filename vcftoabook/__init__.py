@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-
 import re
-import argparse
 from sys import exit
 from os import path
 
@@ -73,29 +70,3 @@ def main(args):
     else:
         with open('./addressbook', 'w+') as f:
             f.write(build_template(contacts))
-
-
-parser = argparse.ArgumentParser(
-    prog="vcftoabook",
-    description="Convert .vcf files into addressbook files to be used in "
-                "abook/Mutt"
-)
-
-parser.add_argument(
-    '-i', '--input',
-    metavar='input',
-    type=str,
-    help="the input path of a .vcf file"
-)
-
-parser.add_argument(
-    '-o', '--output',
-    metavar="output",
-    type=str,
-    default='addressbook',
-    help="the output path/filename (default: ./addressbook)"
-)
-
-args = parser.parse_args()
-
-main(args)
