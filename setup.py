@@ -3,10 +3,10 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "0.2.4"
+VERSION = "0.2.5"
 
 setuptools.setup(
-    name="vcftoabook-trevdev",
+    name="vcftoabook",
     version=VERSION,
     author="Trevor Richards",
     author_email="trev@trevdev.ca",
