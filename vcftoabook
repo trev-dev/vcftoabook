@@ -65,10 +65,8 @@ def main(args):
     contacts = list(filter(lambda x: x['email'], parsed_data))
 
     # Don't write anything to disk if contacts are empty
-
     if not contacts:
         exit('Unable to write file: Input vcf is corrupt or invalid')
-
     if args.output:
         with open(path.abspath(args.output), 'w+') as f:
             f.write(build_template(contacts))
