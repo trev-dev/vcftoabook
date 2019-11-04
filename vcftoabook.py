@@ -1,4 +1,7 @@
+#!/usr/bin/env python
+
 import re
+import argparse
 
 
 def parse_data(items):
@@ -47,6 +50,7 @@ def build_template(data):
     return template
 
 
+"""
 with open('./contacts.vcf', 'r') as f:
     data = f.read().split('BEGIN:VCARD')
 
@@ -58,3 +62,30 @@ contacts = list(filter(lambda x: x['email'], parsed_data))
 # Save re-formatted contacts to disk
 with open('./addressbook', 'w+') as f:
     f.write(build_template(contacts))
+"""
+
+parser = argparse.ArgumentParser(
+    prog="vcftoabook",
+    description="Convert .vcf files into addressbook files to be used in "
+                "abook/Mutt"
+)
+
+parser.add_argument(
+    '-i', '--input',
+    metavar='input',
+    type=str,
+    help="the input path of a .vcf file"
+)
+
+parser.add_argument(
+    '-o', '--output',
+    metavar="output",
+    type=str,
+    default='addressbook',
+    help="the output path/filename (default: ./addressbook)"
+)
+
+args = parser.parse_args()
+
+if args.input:
+    print(f'Convert {args.input}')
