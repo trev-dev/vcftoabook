@@ -22,3 +22,5 @@ Currently tested with:
 - [x] Refactor into a proper command line application
 - [ ] Test with multiple vcf versions.
 - [ ] Build deployment packages for the AUR & Pip
+
+License: [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)
