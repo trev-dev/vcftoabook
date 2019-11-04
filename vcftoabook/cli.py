@@ -30,4 +30,5 @@ def main():
     vcftoabook.main(args)
 
 
-main()
+if __name__ == '__main__':
+    main()
