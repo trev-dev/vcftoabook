@@ -2,6 +2,8 @@
 
 import re
 import argparse
+from sys import exit
+from os import path
 
 
 def parse_data(items):
@@ -50,19 +52,30 @@ def build_template(data):
     return template
 
 
-"""
-with open('./contacts.vcf', 'r') as f:
-    data = f.read().split('BEGIN:VCARD')
+def main(args):
+    try:
+        with open(path.abspath(args.input), 'r') as f:
+            data = f.read().split('BEGIN:VCARD')
+    except FileNotFoundError:
+        exit(f'File not found: {path.abspath(args.input)}')
 
-parsed_data = [parse_data(entry) for entry in data]
+    parsed_data = [parse_data(entry) for entry in data]
 
-# Prune contacts with no email address entered
-contacts = list(filter(lambda x: x['email'], parsed_data))
+    # Prune contacts with no email address entered
+    contacts = list(filter(lambda x: x['email'], parsed_data))
 
-# Save re-formatted contacts to disk
-with open('./addressbook', 'w+') as f:
-    f.write(build_template(contacts))
-"""
+    # Don't write anything to disk if contacts are empty
+
+    if not contacts:
+        exit('Unable to write file: Input vcf is corrupt or invalid')
+
+    if args.output:
+        with open(path.abspath(args.output), 'w+') as f:
+            f.write(build_template(contacts))
+    else:
+        with open('./addressbook', 'w+') as f:
+            f.write(build_template(contacts))
+
 
 parser = argparse.ArgumentParser(
     prog="vcftoabook",
@@ -87,5 +100,4 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if args.input:
-    print(f'Convert {args.input}')
+main(args)
