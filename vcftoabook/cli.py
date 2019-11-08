@@ -10,11 +10,9 @@ def main():
     )
 
     parser.add_argument(
-        '-i', '--input',
-        metavar='input',
+        'input',
         type=str,
         help="the input path of a .vcf file",
-        required=True
     )
 
     parser.add_argument(
