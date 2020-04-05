@@ -1,5 +1,5 @@
 from sys import exit
-from os import path
+from os import path, listdir
 from parser import parse_vcf
 
 
@@ -26,24 +26,40 @@ def build_template(data):
     return template
 
 
-def main(args):
+def data_from_file(vcf):
     try:
-        with open(path.abspath(args.input), 'r') as f:
+        with open(path.abspath(vcf), 'r') as f:
             data = f.read().split('BEGIN:VCARD')
     except FileNotFoundError:
-        exit(f'File not found: {path.abspath(args.input)}')
+        exit(f'File not found: {vcf}')
 
-    parsed_data = [parse_vcf(entry) for entry in data]
+    return [parse_vcf(entry) for entry in data]
 
-    # Prune contacts with no email address entered
-    contacts = list(filter(lambda x: x['email'], parsed_data))
 
-    # Don't write anything to disk if contacts are empty
-    if not contacts:
-        exit('Unable to write file: Input vcf is corrupt or invalid')
-    if args.output:
-        with open(path.abspath(args.output), 'w+') as f:
-            f.write(build_template(contacts))
+def main(args):
+    if (path.isdir(args.input)):
+        # iterate files in directory
+
+        dir_list = listdir(args.input)
+        files = [
+            f for f in dir_list if path.isfile(path.join(args.input, f))
+            and path.splitext(f)[1] == '.vcf'
+        ]
+
+        print(files)
     else:
-        with open('./addressbook', 'w+') as f:
-            f.write(build_template(contacts))
+        parsed_data = data_from_file(args.input)
+
+        # Prune contacts with no email address entered
+        contacts = list(filter(lambda x: x['email'], parsed_data))
+
+        print(args)
+        # Don't write anything to disk if contacts are empty
+        if not contacts:
+            exit('Unable to write file: Input vcf is corrupt or invalid')
+        if args.output:
+            with open(path.abspath(args.output), 'w+') as f:
+                f.write(build_template(contacts))
+        else:
+            with open('./addressbook', 'w+') as f:
+                f.write(build_template(contacts))

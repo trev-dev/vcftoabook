@@ -12,7 +12,7 @@ def main():
     parser.add_argument(
         'input',
         type=str,
-        help="the input path of a .vcf file",
+        help="the input path of a .vcf file, or directory full of .vcf files",
     )
 
     parser.add_argument(
