@@ -19,7 +19,7 @@ def main():
         '-o',
         '--output',
         type=str,
-        default='.addressbook',
+        default='addressbook',
         help="the output path/filename (default: ./addressbook)"
     )
 
