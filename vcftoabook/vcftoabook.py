@@ -22,6 +22,8 @@ def build_template(data):
         )
         if entry["notes"]:
             template += f'notes={entry["notes"]}\n'
+        if entry['custom1']:
+            template += f'custom1={entry["custom1"]}\n'
     template += '\n'
     return template
 
