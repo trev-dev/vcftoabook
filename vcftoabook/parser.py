@@ -10,7 +10,8 @@ def parse_vcf(items):
     entry = {
         'name': '',
         'email': set(),
-        'notes': ''
+        'notes': '',
+        'custom1': ''
     }
 
     for item in items:
@@ -20,5 +21,7 @@ def parse_vcf(items):
             entry['email'].add(item.split(':')[1])
         elif 'NOTE:' in item:
             entry['notes'] = re.search(r'NOTE:(.+)', item).group(1)
+        elif 'UID:' in item:
+            entry['custom1'] = item.split(':')[1]
 
     return entry
