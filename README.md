@@ -13,7 +13,7 @@ Run `pip install --user vcftoabook`
 
 ## Usage
 
-Simply run `vcftoabook -i file.vcf` to generate an addressbook file. You may also specify an output file/path with `vcftoabook -i file.vcf -o <path>/<filename>`. Run `vcftoabook -h` for help.
+Simply run `vcftoabook file.vcf` to generate an addressbook file. Vcftoabook also works on directories and will parse all the .vcf files in a given directory and output one addressbook file. You may also specify an output file/path with `vcftoabook file.vcf -o <path>/<filename>`. Run `vcftoabook -h` for help.
 
 ## Testing
 Currently tested with:
@@ -22,7 +22,10 @@ Currently tested with:
 
 ## TODO
 - [x] Refactor into a proper command line application
-- [ ] Test with multiple vcf versions.
+- [x] Test with multiple vcf versions.
+- [x] Ability to add directory of vcf files
+- [ ] Ability to update existing addressbook with new contacts/emails
+- [ ] vdirsyncer/caldav support(?)
 - [-] Build deployment packages
   - [ ] AUR
   - [x] Pypi
