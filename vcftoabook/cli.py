@@ -23,11 +23,13 @@ def main():
         help="the output path/filename (default: ./addressbook)"
     )
 
+    '''
     parser.add_argument(
         '-a',
         '--add',
         help="append new contacts to existing address book"
     )
+    '''
     args = parser.parse_args()
 
     vcftoabook.main(args)
