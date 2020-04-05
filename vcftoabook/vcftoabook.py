@@ -29,39 +29,50 @@ def build_template(data):
 
 
 def data_from_file(vcf):
+    '''
+    Load a vcf file and reutrn a list of contacts whose details
+    include email addresses
+    '''
     try:
         with open(path.abspath(vcf), 'r') as f:
             data = f.read().split('BEGIN:VCARD')
     except FileNotFoundError:
         exit(f'File not found: {vcf}')
 
-    return [parse_vcf(entry) for entry in data]
+    parsed = [parse_vcf(entry) for entry in data]
+
+    return list(filter(lambda x: x['email'], parsed))
+
+
+def write_addressbook(contacts, outfile):
+    if not contacts:
+        exit('Unable to write file: Input vcf is corrupt or invalid')
+
+    contacts = sorted(contacts, key=lambda c: c['name'])
+
+    if outfile:
+        with open(path.abspath(outfile), 'w+') as f:
+            f.write(build_template(contacts))
+    else:
+        with open('./addressbook', 'w+') as f:
+            f.write(build_template(contacts))
 
 
 def main(args):
     if (path.isdir(args.input)):
-        # iterate files in directory
-
         dir_list = listdir(args.input)
+
         files = [
             f for f in dir_list if path.isfile(path.join(args.input, f))
             and path.splitext(f)[1] == '.vcf'
         ]
 
-        print(files)
+        contacts = []
+
+        for f in files:
+            contacts += data_from_file(path.join(args.input, f))
+
+        write_addressbook(contacts, args.output)
     else:
-        parsed_data = data_from_file(args.input)
-
-        # Prune contacts with no email address entered
-        contacts = list(filter(lambda x: x['email'], parsed_data))
-
-        print(args)
-        # Don't write anything to disk if contacts are empty
-        if not contacts:
-            exit('Unable to write file: Input vcf is corrupt or invalid')
-        if args.output:
-            with open(path.abspath(args.output), 'w+') as f:
-                f.write(build_template(contacts))
-        else:
-            with open('./addressbook', 'w+') as f:
-                f.write(build_template(contacts))
+        contacts = data_from_file(args.input)
+        write_addressbook(contacts, args.output)
