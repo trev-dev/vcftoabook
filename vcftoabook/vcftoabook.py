@@ -28,7 +28,7 @@ def build_template(data):
     return template
 
 
-def data_from_file(vcf):
+def contact_from_vcf(vcf):
     '''
     Load a vcf file and reutrn a list of contacts whose details
     include email addresses
@@ -70,9 +70,9 @@ def main(args):
         contacts = []
 
         for f in files:
-            contacts += data_from_file(path.join(args.input, f))
+            contacts += contact_from_vcf(path.join(args.input, f))
 
         write_addressbook(contacts, args.output)
     else:
-        contacts = data_from_file(args.input)
+        contacts = contact_from_vcf(args.input)
         write_addressbook(contacts, args.output)

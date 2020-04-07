@@ -3,7 +3,7 @@ import re
 
 def parse_vcf(items):
     """
-    Load a given vcf, parse it and attempt to return a usable dictionary
+    Parse data from a vcf and attempt to return a usable dictionary
     """
     items = list(filter(lambda x: x != '', items.split('\n')))
 
@@ -25,3 +25,10 @@ def parse_vcf(items):
             entry['custom1'] = item.split(':')[1]
 
     return entry
+
+
+def parse_abook(contacts):
+    """
+    Parse data from an abook file and return a usable dictionary
+    """
+    pass
