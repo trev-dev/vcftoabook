@@ -27,8 +27,14 @@ def parse_vcf(items):
     return entry
 
 
-def parse_abook(contacts):
+def parse_contact(contact, configparser):
     """
     Parse data from an abook file and return a usable dictionary
     """
-    pass
+
+    return {
+        'name': configparser[contact].get('name'),
+        'email': set(configparser[contact].get('email').split(',')),
+        'notes': configparser[contact].get('notes'),
+        'custom1': configparser[contact].get('custom1')
+    }

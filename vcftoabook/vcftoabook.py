@@ -1,6 +1,7 @@
+import configparser
 from sys import exit
 from os import path, listdir
-from parser import parse_vcf
+from parser import parse_vcf, parse_contact
 
 
 def build_template(data):
@@ -28,9 +29,23 @@ def build_template(data):
     return template
 
 
+def contacts_from_abook(abookfile):
+    '''
+    Load an addressbook file and return a list of contact dictionaries
+    '''
+    abook = configparser.ConfigParser()
+    abook.read(abookfile)
+
+    contacts = [
+        parse_contact(c, abook) for c in abook.sections() if c.isnumeric()
+    ]
+
+    return contacts
+
+
 def contact_from_vcf(vcf):
     '''
-    Load a vcf file and reutrn a list of contacts whose details
+    Load a vcf file and reutrn a list of contact dictionaries whose details
     include email addresses
     '''
     try:
@@ -44,6 +59,21 @@ def contact_from_vcf(vcf):
     return list(filter(lambda x: x['email'], parsed))
 
 
+def append_into_existing(existing, new):
+    for new_contact in new:
+        match = False
+        for contact in existing:
+            if new_contact['custom1'] == contact['custom1']:
+                contact['email'] = contact['email'].union(new_contact['email'])
+                match = True
+                break
+
+        if not match:
+            existing.append(new_contact)
+
+    return existing
+
+
 def write_addressbook(contacts, outfile):
     if not contacts:
         exit('Unable to write file: Input vcf is corrupt or invalid')
@@ -51,14 +81,16 @@ def write_addressbook(contacts, outfile):
     contacts = sorted(contacts, key=lambda c: c['name'])
 
     if outfile:
-        with open(path.abspath(outfile), 'w+') as f:
+        with open(path.abspath(outfile), 'w') as f:
             f.write(build_template(contacts))
     else:
-        with open('./addressbook', 'w+') as f:
+        with open('./addressbook', 'w') as f:
             f.write(build_template(contacts))
 
 
 def main(args):
+    abook_exists = path.isfile(args.output)
+
     if (path.isdir(args.input)):
         dir_list = listdir(args.input)
 
@@ -68,11 +100,19 @@ def main(args):
         ]
 
         contacts = []
-
         for f in files:
             contacts += contact_from_vcf(path.join(args.input, f))
-
-        write_addressbook(contacts, args.output)
     else:
         contacts = contact_from_vcf(args.input)
+
+    if abook_exists and not args.append:
+        print(
+            f'File already exits at {args.output}\n'
+            'Use -a to append to existing file\n'
+        )
+    elif abook_exists:
+        existing_contacts = contacts_from_abook(args.output)
+        merged_contacts = append_into_existing(existing_contacts, contacts)
+        write_addressbook(merged_contacts, args.output)
+    else:
         write_addressbook(contacts, args.output)
