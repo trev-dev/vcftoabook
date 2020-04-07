@@ -3,7 +3,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-VERSION = "0.3.1"
+VERSION = "0.4.0"
 
 setuptools.setup(
     name="vcftoabook",
