@@ -99,17 +99,24 @@ def contact_from_vcf(vcf):
 
 
 def append_into_existing(existing, new):
+    match_count = 0
+    new_count = 0
     for new_contact in new:
         match = False
         for contact in existing:
             if new_contact['custom1'] == contact['custom1']:
                 contact['email'] = contact['email'].union(new_contact['email'])
+                match_count += 1
                 match = True
                 break
 
         if not match:
             existing.append(new_contact)
+            new_count += 1
 
+    print(f'\n{match_count} contacts merged into addressbook')
+    print(f'{new_count} new contacts added')
+    
     return existing
 
 
