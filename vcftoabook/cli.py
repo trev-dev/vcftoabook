@@ -1,5 +1,5 @@
 import argparse
-import vcftoabook
+import vcftoabook.functions as functions
 
 
 def main():
@@ -33,7 +33,7 @@ def main():
     '''
     args = parser.parse_args()
 
-    vcftoabook.main(args)
+    functions.main(args)
 
 
 if __name__ == '__main__':
